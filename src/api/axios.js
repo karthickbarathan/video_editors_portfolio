@@ -1,8 +1,12 @@
 import axios from "axios";
 
 const API = axios.create({
+<<<<<<< HEAD
   //baseURL: "http://localhost:8080/api", // your Spring Boot URL
   baseURL: import.meta.env.VITE_API_URL,
+=======
+  baseURL: "http://localhost:8080/api", // your Spring Boot URL
+>>>>>>> 58d9366b6190842ea26d4a4b42a51ebaab22af0e
 });
 
 // Add token automatically
