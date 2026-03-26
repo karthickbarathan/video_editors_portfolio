@@ -15,7 +15,7 @@ function Home() {
   useEffect(() => {
     setLoading(true);
     const url = search ? `/videos/search?keyword=${search}` : "/videos";
-
+    console.log("API URL:", import.meta.env.VITE_API_URL);
     API.get(url)
       .then((res) => setVideos(res.data))
       .catch((err) => console.log(err))
