@@ -17,9 +17,11 @@ function App() {
 
   return (
     <AuthProvider>
-    <div className="min-h-screen bg-[#FFFFFF] text-black font-semibold">
+    {/* <div className="min-h-screen bg-[#FFFFFF] text-black font-semibold"> */}
+    <div className="animated-bg">
       <Navbar />
-      <Routes>
+      <div className="pt-16">
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/videos/:id" element={<VideoPlayer />} />
         
@@ -42,6 +44,8 @@ function App() {
           draggable
           theme="dark"
       />
+      </div>
+      
     </div>
     </AuthProvider>
   )

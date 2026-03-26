@@ -2,6 +2,13 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import API from "../api/axios";
 
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import Container from "../components/ui/Container";
+
+import { motion } from "framer-motion";
+
 function Contact() {
   const [form, setForm] = useState({
     name: "",
@@ -11,6 +18,8 @@ function Contact() {
     budget: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -19,9 +28,13 @@ function Contact() {
     e.preventDefault();
 
     try {
+      setLoading(true);
+
       await API.post("/contacts", form);
 
-      toast.success("Request sent successfully 🚀");
+      toast.success(
+        "Request sent successfully - Our team will contact you shortly",
+      );
 
       setForm({
         name: "",
@@ -30,77 +43,69 @@ function Contact() {
         projectType: "",
         budget: "",
       });
-
     } catch (err) {
       toast.error("Failed to send request ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white/30 backdrop-blur-md p-8 rounded-xl border border-black w-full max-w-md"
-      >
-
-        <h2 className="text-2xl text-orange-500 font-bold text-center">
-          Contact Us
-        </h2>
-
-        <input
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-          className="w-full p-2 rounded text-black"
-          required
-        />
-
-        <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full p-2 rounded text-black"
-          required
-        />
-
-        <textarea
-          name="message"
-          placeholder="Message"
-          value={form.message}
-          onChange={handleChange}
-          className="w-full p-2 rounded text-black"
-          required
-        />
-
-        <input
-          name="projectType"
-          placeholder="Project Type"
-          value={form.projectType}
-          onChange={handleChange}
-          className="w-full p-2 rounded text-black"
-        />
-
-        <input
-          name="budget"
-          placeholder="Budget"
-          value={form.budget}
-          onChange={handleChange}
-          className="w-full p-2 rounded text-black"
-        />
-
-        <button
-          type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-600 py-2 rounded font-semibold"
+    <Container>
+      <div className="min-h-[calc(100vh-80px)] flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          Send Request
-        </button>
+          <Card className="max-w-md w-full p-8 space-y-4">
+            <h2 className="text-2xl font-bold text-center">Contact Us</h2>
 
-      </form>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                name="name"
+                placeholder="Name"
+                value={form.name}
+                onChange={handleChange}
+              />
 
-    </div>
+              <Input
+                name="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+              />
+
+              <textarea
+                name="message"
+                placeholder="Message"
+                value={form.message}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-black rounded-lg outline-none focus:ring-2 focus:ring-black"
+              />
+
+              <Input
+                name="projectType"
+                placeholder="Project Type (Optional)"
+                value={form.projectType}
+                onChange={handleChange}
+              />
+
+              <Input
+                name="budget"
+                placeholder="Budget (Optional)"
+                value={form.budget}
+                onChange={handleChange}
+              />
+
+              <Button className="w-full" disabled={loading}>
+                {loading ? "Sending..." : "Send Request"}
+              </Button>
+            </form>
+          </Card>
+        </motion.div>
+      </div>
+    </Container>
   );
 }
 

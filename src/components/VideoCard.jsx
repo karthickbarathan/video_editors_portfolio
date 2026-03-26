@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import Card from "./ui/Card";
+import { motion } from "framer-motion";
 
 function VideoCard({ video }) {
   const navigate = useNavigate();
@@ -9,10 +11,15 @@ function VideoCard({ video }) {
   };
 
   return (
-    <div
-      onClick={handleClick}
-      className="bg-gray-900 rounded-lg overflow-hidden cursor-pointer transform hover:scale-105 transition duration-300"
-    >
+
+    <motion.div
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.97 }}
+  className="cursor-pointer"
+  onClick={handleClick}
+>
+
+<Card>
       {/* Thumbnail */}
       <img
         src={video.thumbnailUrl}
@@ -38,7 +45,10 @@ function VideoCard({ video }) {
           {video.channelName || "MRK Studio"}
         </p>
       </div>
-    </div>
+    </Card>
+
+</motion.div>
+    
   );
 }
 

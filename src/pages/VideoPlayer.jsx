@@ -3,18 +3,17 @@ import { useEffect, useState } from "react";
 import API from "../api/axios";
 
 function VideoPlayer() {
-
   const { id } = useParams();
   console.log("Video ID from URL:", id);
   const [video, setVideo] = useState(null);
 
   useEffect(() => {
     API.get(`/videos/${id}`)
-      .then(res => {
-      console.log("VIDEO DATA:", res.data); // 👈 ADD
-      setVideo(res.data);
-    })
-      .catch(err => console.log(err));
+      .then((res) => {
+        console.log("VIDEO DATA:", res.data); // 👈 ADD
+        setVideo(res.data);
+      })
+      .catch((err) => console.log(err));
   }, [id]);
 
   if (!video) return <p>Loading...</p>;
@@ -30,7 +29,6 @@ function VideoPlayer() {
 
   return (
     <div className="p-6">
-
       <h1 className="text-xl mb-4">{video.title}</h1>
 
       <iframe
@@ -42,7 +40,6 @@ function VideoPlayer() {
       />
 
       <p className="mt-4 text-gray-400">{video.description}</p>
-
     </div>
   );
 }
